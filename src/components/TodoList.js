@@ -22,7 +22,7 @@ export default class TodoList extends Component {
   }
 
   render() {
-    const { todos, onComplete, loading, errorMsg } = this.props;
+    const { todos, onComplete, loading, errorMsg, onDelete } = this.props;
     return loading ? (
       <div>loading...</div>
     ) : errorMsg ? (
@@ -36,6 +36,9 @@ export default class TodoList extends Component {
             complete={complete}
             onComplete={() => {
               onComplete(id);
+            }}
+            onDelete={() => {
+              onDelete(id);
             }}
           />
         ))}

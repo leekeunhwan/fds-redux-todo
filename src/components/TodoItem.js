@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { deleteTodo } from './../ducks/todos';
 
 export default class TodoItem extends Component {
   static defaultProps = {
@@ -10,8 +11,9 @@ export default class TodoItem extends Component {
     const { complete, onComplete } = this.props;
     if (!complete) onComplete();
   };
+
   render() {
-    const { complete, body } = this.props;
+    const { complete, body, onDelete } = this.props;
     return (
       <div>
         <input
@@ -20,6 +22,7 @@ export default class TodoItem extends Component {
           onClick={this.handleComplete}
         />
         <span>{body}</span>
+        <button onClick={onDelete}>삭제</button>
       </div>
     );
   }

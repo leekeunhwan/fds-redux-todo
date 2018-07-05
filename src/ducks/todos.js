@@ -5,6 +5,9 @@ import { compose } from 'redux';
 const ADD_TODO_REQUEST = 'fds-redux-todo/todos/ADD_TODO_REQUEST';
 const ADD_TODO_SUCCESS = 'fds-redux-todo/todos/ADD_TODO_SUCCESS';
 const ADD_TODO_FAILURE = 'fds-redux-todo/todos/ADD_TODO_FAILURE';
+const DELETE_TODO_REQUEST = 'fds-redux-todo/todos/DELETE_TODO_REQUEST';
+const DELETE_TODO_SUCCESS = 'fds-redux-todo/todos/DELETE_TODO_SUCCESS';
+const DELETE_TODO_FAILURE = 'fds-redux-todo/todos/DELETE_TODO_FAILURE';
 const FETCH_TODOS_REQUEST = 'fds-redux-todo/todos/FETCH_TODOS_REQUEST';
 const FETCH_TODOS_SUCCESS = 'fds-redux-todo/todos/FETCH_TODOS_SUCCESS';
 const FETCH_TODOS_FAILURE = 'fds-redux-todo/todos/FETCH_TODOS_FAILURE';
@@ -42,6 +45,35 @@ export function addTodo(body) {
       dispatch(fetchTodos());
     } catch (e) {
       dispatch(addTodoFailure(e.message));
+    }
+  };
+}
+
+export function deleteTodoRequest() {
+  return {
+    type: DELETE_TODO_REQUEST,
+  };
+}
+export function deleteTodoSuccess() {
+  return {
+    type: DELETE_TODO_SUCCESS,
+  };
+}
+export function deleteTodoFailure() {
+  return {
+    type: DELETE_TODO_FAILURE,
+  };
+}
+
+export function deleteTodo(id) {
+  return async function(dispatch) {
+    dispatch(deleteTodoRequest());
+    try {
+      await axios.delete(`https://bog-morning.glitch.me/todos/${id}`);
+      dispatch(deleteTodoSuccess());
+      dispatch(fetchTodos());
+    } catch (e) {
+      dispatch(deleteTodoFailure(e.message));
     }
   };
 }
