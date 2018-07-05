@@ -1,4 +1,6 @@
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 import count from './ducks/count';
 import todos from './ducks/todos';
 
@@ -27,6 +29,8 @@ import todos from './ducks/todos';
 //   }
 // }
 
+const loggerMiddleware = createLogger();
+
 // 작은 리듀서 여러 개를 만든 다음
 // combineReducers를 사용해 합칠 수 있다.
 const rootReducer = combineReducers({
@@ -37,7 +41,10 @@ const rootReducer = combineReducers({
 // 스토어
 export const store = createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  applyMiddleware(
+    thunkMiddleware, // lets us dispatch() functions
+    loggerMiddleware // neat middleware that logs actions
+  )
 );
 
 store.subscribe(() => {
